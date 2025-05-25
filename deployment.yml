@@ -14,13 +14,13 @@ spec:
         app: medicure
     spec:
       containers:
-        - name: insurance
+        - name: medicure
           image: suvratam/staragileprojectmedicure:v1
           ports:
-            - containerPort: 8081
+            - containerPort: 8082          # <-- Corrected to 8082
           env:
             - name: PORT
-              value: "8081"
+              value: "8082"                # <-- Corrected to 8082
 ---
 apiVersion: v1
 kind: Service
@@ -28,8 +28,9 @@ metadata:
   name: medicure
 spec:
   type: NodePort
-  ports:
-    - port: 8081
-      targetPort: 8081
   selector:
     app: medicure
+  ports:
+    - port: 8082                          # <-- Service port
+      targetPort: 8082                    # <-- Must match container port
+      nodePort: 32438  
